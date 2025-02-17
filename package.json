@@ -18,17 +18,17 @@
     "@astrojs/check": "^0.9.4",
     "@astrojs/sitemap": "^3.2.1",
     "@astrojs/tailwind": "^6.0.0",
-    "@astrojs/vercel": "^8.0.4",
-    "astro": "^5.2.5",
+    "@astrojs/vercel": "^8.0.7",
+    "astro": "^5.3.0",
     "astro-font": "^0.1.81",
     "tailwindcss": "^3.4.17"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^15.2.10",
-    "prettier": "^3.4.2",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.1",
     "prettier-plugin-astro": "^0.14.1",
-    "prettier-plugin-tailwindcss": "^0.6.9",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "typescript": "^5.7.3"
   },
   "lint-staged": {
