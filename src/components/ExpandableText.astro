@@ -1,0 +1,162 @@
+---
+/**
+ * Menu buttons with dropdown options.
+ */
+
+enum MenuType {
+	proyectos = 'Proyectos',
+	tecnologias = 'Stack',
+	social = 'Social',
+	contacto = 'Contacto',
+}
+
+const menuItems = [
+	{
+		name: MenuType.proyectos,
+		options: [
+			{ label: 'Chart IT', url: 'https://github.com/Fabian-Martinez-Rincon/Char-IT' },
+			{ label: 'Emuti', url: 'https://github.com/Fabian-Martinez-Rincon/EmuTi' },
+			{ label: 'ACL Manager', url: 'https://github.com/Fabian-Martinez-Rincon/acl-manager' },
+			{ label: 'MidFlash', url: 'https://github.com/Fabian-Martinez-Rincon/MidFlash' },
+			{
+				label: 'Scraping PlutoTV',
+				url: 'https://github.com/Fabian-Martinez-Rincon/Scraping_PLUTO_TV',
+			},
+			{ label: 'SQL - Modify', url: 'https://github.com/Fabian-Martinez-Rincon/modify-SQL' },
+			{ label: 'Lab-Genetics', url: 'https://github.com/Fabian-Martinez-Rincon/Lab-Genetics' },
+		],
+	},
+	{
+		name: MenuType.tecnologias,
+		options: [
+			{ label: 'Python' },
+			{ label: 'APIs' },
+			{ label: 'SQL' },
+			{ label: 'Flask' },
+			{ label: 'MongoDB' },
+			{ label: 'No SQL' },
+			{ label: 'JavaScript' },
+		],
+	},
+	{
+		name: 'Resume',
+		directLink: 'https://rincondelfabo.vercel.app/resumeES',
+	},
+];
+
+// Función para el color original del botón
+const getColor = (type: any) => {
+	switch (type) {
+		case MenuType.proyectos:
+			return 'bg-blue-400';
+		case MenuType.tecnologias:
+			return 'bg-green-400';
+		case 'Resume':
+			return 'bg-orange-400'; // Un color específico para el botón del blog
+		default:
+			return 'bg-gray-400';
+	}
+};
+
+// Función para el color más oscuro (fondo del menú)
+const getDarkerColor = (type: MenuType) => {
+	switch (type) {
+		case MenuType.proyectos:
+			return 'bg-blue-900';
+		case MenuType.tecnologias:
+			return 'bg-green-900';
+		case MenuType.social:
+			return 'bg-purple-900';
+		case MenuType.contacto:
+			return 'bg-red-900';
+		default:
+			return 'bg-gray-900';
+	}
+};
+
+// Función para colores distintos en las etiquetas
+const getLabelColor = (index: number) => {
+	const colors = ['bg-yellow-400', 'bg-green-400', 'bg-pink-400', 'bg-indigo-400', 'bg-cyan-400'];
+	return colors[index % colors.length];
+};
+
+const getClass = (type: MenuType) =>
+	`scale-100 rounded-full border-2 border-gray-950 ${getColor(
+		type,
+	)} transition duration-300 hover:scale-110 animate-zoom-in`;
+---
+
+<div class="flex justify-center space-x-6">
+	{
+		menuItems.map((menu, index) => (
+			<div key={index} class="relative flex items-center">
+				{/* Verificar si el menú tiene un enlace directo */}
+				{menu.directLink ? (
+					<a
+						href={menu.directLink}
+						class={`rounded-md px-5 py-3 text-black ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
+						target="_blank"
+					>
+						{menu.name}
+					</a>
+				) : (
+					<>
+						<button
+							class={`rounded-md px-5 py-3 text-black ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
+							onclick={`toggleMenu(${index})`}
+						>
+							{menu.name}
+						</button>
+
+						<div
+							id={`menu-${index}`}
+							class={`menu-options bold absolute left-1/2 top-[60px] flex hidden -translate-x-1/2 flex-row transition-opacity duration-300 ${getDarkerColor(menu.name)}`}
+						>
+							{menu.options.map((option, optIndex) =>
+								option.url ? (
+									<a
+										href={option.url}
+										target="_blank"
+										class={`border-2 border-gray-800 px-4 py-2 text-center text-black transition ${getLabelColor(optIndex)} bold min-w-max overflow-hidden text-ellipsis whitespace-nowrap hover:brightness-110`}
+									>
+										{option.label}
+									</a>
+								) : (
+									<span
+										class={`border-2 border-gray-800 px-4 py-2 text-center text-black transition ${getLabelColor(optIndex)} bold min-w-max cursor-default overflow-hidden text-ellipsis whitespace-nowrap`}
+									>
+										{option.label}
+									</span>
+								),
+							)}
+						</div>
+					</>
+				)}
+			</div>
+		))
+	}
+</div>
+
+<script is:inline>
+	function toggleMenu(index) {
+		// Cerrar todos los menús excepto el seleccionado
+		document.querySelectorAll('.menu-options').forEach((menu, i) => {
+			if (i !== index) {
+				menu.classList.add('hidden');
+			}
+		});
+
+		// Alternar visibilidad del menú seleccionado
+		const currentMenu = document.getElementById(`menu-${index}`);
+		if (currentMenu) {
+			currentMenu.classList.toggle('hidden');
+		}
+	}
+
+	// Cerrar menús al hacer clic fuera
+	document.addEventListener('click', (event) => {
+		if (!event.target.closest('.relative')) {
+			document.querySelectorAll('.menu-options').forEach((el) => el.classList.add('hidden'));
+		}
+	});
+</script>
