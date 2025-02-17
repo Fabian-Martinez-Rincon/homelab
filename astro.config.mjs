@@ -5,7 +5,8 @@ import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://astro-simple-portfolio.vercel.app/', // Required for sitemap -> Replace with your site's URL
+	site: 'https://fabian-martinez-rincon.github.io', // Required for sitemap -> Replace with your site's URL
+	base: 'homelab', // Optional
 	output: 'static',
 	integrations: [tailwind(), sitemap()],
 	adapter: vercel(),
