@@ -8,6 +8,7 @@ enum MenuType {
 	tecnologias = 'Stack',
 	social = 'Social',
 	contacto = 'Contacto',
+	readMore = 'Leer Más'
 }
 
 const menuItems = [
@@ -36,11 +37,27 @@ const menuItems = [
 			{ label: 'MongoDB' },
 			{ label: 'No SQL' },
 			{ label: 'JavaScript' },
+			{ label: 'React' },
+			{ label: 'VPN' },
+			{ label: 'HTML' },
+			{ label: 'CSS' },
+			{ label: 'Tailwind CSS' },
+			{ label: 'Git' },
+			{ label: 'GitHub' },
+			{ label: 'Insomnia' },
+			{ label: 'Vercel' },
+			{ label: 'postgresql' },
+
 		],
 	},
 	{
 		name: 'Resume',
 		directLink: 'https://rincondelfabo.vercel.app/resumeES',
+	},
+	{
+		name: MenuType.readMore,
+		content_1: "Trabajo como Data Engineer en BB-Media, especializado en Web Scaping usando Python, MongoDB, Insomia y demas Tecnologias.",
+		content_2: "Tambien soy Tecnico y Estoy cursando 4to año de Licenciatura en Sistemas en UNLP Informatica"
 	},
 ];
 
@@ -49,6 +66,8 @@ const getColor = (type: any) => {
 	switch (type) {
 		case MenuType.proyectos:
 			return 'bg-blue-400';
+		case MenuType.readMore:
+			return 'bg-purple-500';
 		case MenuType.tecnologias:
 			return 'bg-green-400';
 		case 'Resume':
@@ -83,79 +102,128 @@ const getLabelColor = (index: number) => {
 ---
 
 <script is:inline>
-	function toggleMenu(index) {
-		// Cerrar todos los menús excepto el seleccionado
-		document.querySelectorAll('.menu-options').forEach((menu, i) => {
-			if (i !== index) {
-				menu.classList.add('hidden');
-			}
-		});
+    function toggleMenu(index) {
+        // Cerrar todos los menús excepto el seleccionado
+        document.querySelectorAll('.menu-options').forEach((menu, i) => {
+            if (i !== index) {
+                menu.classList.add('hidden');
+            }
+        });
 
-		// Alternar visibilidad del menú seleccionado
-		const currentMenu = document.getElementById(`menu-${index}`);
-		if (currentMenu) {
-			currentMenu.classList.toggle('hidden');
-		}
-	}
+        // Alternar visibilidad del menú seleccionado
+        const currentMenu = document.getElementById(`menu-${index}`);
+        if (currentMenu) {
+            currentMenu.classList.toggle('hidden');
+        }
+    }
 
-	// Cerrar menús al hacer clic fuera
-	document.addEventListener('click', (event) => {
-		if (!event.target.closest('.relative')) {
-			document.querySelectorAll('.menu-options').forEach((el) => el.classList.add('hidden'));
-		}
-	});
+    function toggleText(index) {
+        // Alternar visibilidad del texto expandible
+        const expandableText = document.getElementById(`expandable-text-${index}`);
+        if (expandableText) {
+            expandableText.classList.toggle('hidden');
+        }
+    }
+
+    // Cerrar menús al hacer clic fuera
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.relative')) {
+            document.querySelectorAll('.menu-options, .expandable-text').forEach((el) => el.classList.add('hidden'));
+        }
+    });
 </script>
 
 
+
+<script is:inline>
+    function toggleMenu(index) {
+        document.querySelectorAll('.menu-options').forEach((menu, i) => {
+            if (i !== index) {
+                menu.classList.add('hidden');
+            }
+        });
+
+        const currentMenu = document.getElementById(`menu-${index}`);
+        if (currentMenu) {
+            currentMenu.classList.toggle('hidden');
+        }
+    }
+
+    function toggleText(index) {
+        const expandableText = document.getElementById(`expandable-text-${index}`);
+        if (expandableText) {
+            expandableText.classList.toggle('hidden');
+        }
+    }
+
+    document.addEventListener('click', (event) => {
+        if (!event.target.closest('.relative')) {
+            document.querySelectorAll('.menu-options, .expandable-text').forEach((el) => el.classList.add('hidden'));
+        }
+    });
+</script>
+
 <div class="flex justify-center space-x-6">
-	{
-		menuItems.map((menu, index) => (
-			<div class="relative flex items-center">
-				{/* Verificar si el menú tiene un enlace directo */}
-				{menu.directLink ? (
-					<a
-						href={menu.directLink}
-						class={`rounded-md px-5 py-3 text-black ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
-						target="_blank"
-					>
-						{menu.name}
-					</a>
-				) : (
-					<>
-						<button
-							class={`rounded-md px-5 py-3 text-black ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
-							onclick={`toggleMenu(${index})`}
-						>
-							{menu.name}
-						</button>
-
-						<div
-							id={`menu-${index}`}
-							class={`menu-options bold absolute left-1/2 top-[60px] flex hidden -translate-x-1/2 flex-row transition-opacity duration-300 ${getDarkerColor(menu.name as MenuType)}`}
-						>
-							{menu.options?.map((option, optIndex) => (
-								'url' in option ? (
-									<a
-									href={option.url}
-									target="_blank"
-									class={`border-2 border-gray-800 px-4 py-2 text-center text-black transition ${getLabelColor(optIndex)} bold min-w-max overflow-hidden text-ellipsis whitespace-nowrap hover:brightness-110`}
-									>
-									{option.label}
-									</a>
-								) : (
-									<span
-									class={`border-2 border-gray-800 px-4 py-2 text-center text-black transition ${getLabelColor(optIndex)} bold min-w-max cursor-default overflow-hidden text-ellipsis whitespace-nowrap`}
-									>
-									{option.label}
-									</span>
-								)
-								))}
-
-						</div>
-					</>
-				)}
-			</div>
-		))
-	}
+    {
+        menuItems.map((menu, index) => (
+            <div class="relative flex items-center">
+                {menu.directLink ? (
+                    <a
+                        href={menu.directLink}
+                        class={`rounded-md px-5 py-3 text-black ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
+                        target="_blank"
+                    >
+                        {menu.name}
+                    </a>
+                ) : menu.name === MenuType.readMore ? (
+                    <>
+                        <button
+                            class={`rounded-md px-5 py-3 text-white ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
+                            onclick={`toggleText(${index})`}
+                        >
+                            {menu.name}
+                        </button>
+                        <div
+                            id={`expandable-text-${index}`}
+                            class="hidden absolute left-1/2 top-[60px]  bg-purple-900 text-white px-4 py-3 -translate-x-1/2 rounded shadow-lg text-flex whitespace-nowrap"
+                        >
+                            <p class="text-center  break-words">{menu.content_1}</p>
+							<p class="text-center  break-words">{menu.content_2}</p>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            class={`rounded-md px-5 py-3 text-black ${getColor(menu.name)} bold transition duration-300 hover:brightness-110`}
+                            onclick={`toggleMenu(${index})`}
+                        >
+                            {menu.name}
+                        </button>
+                        <div
+                            id={`menu-${index}`}
+                            class={`menu-options bold absolute left-1/2 top-[60px] flex hidden -translate-x-1/2 flex-row transition-opacity duration-300 ${getDarkerColor(menu.name as MenuType)}`}
+                        >
+                            {menu.options?.map((option, optIndex) => (
+                                'url' in option ? (
+                                    <a
+                                        href={option.url}
+                                        target="_blank"
+                                        class={`border-2 border-gray-800 px-1 py-1 text-center text-black transition ${getLabelColor(optIndex)} bold min-w-max overflow-hidden text-ellipsis whitespace-nowrap hover:brightness-110`}
+                                    >
+                                        {option.label}
+                                    </a>
+                                ) : (
+                                    <span
+                                        class={`border-2 border-gray-800 px-1 py-1 text-center text-black transition ${getLabelColor(optIndex)} bold min-w-max cursor-default overflow-hidden text-ellipsis whitespace-nowrap`}
+                                    >
+                                        {option.label}
+                                    </span>
+                                )
+                            ))}
+                        </div>
+                    </>
+                )}
+            </div>
+        ))
+    }
 </div>
-
